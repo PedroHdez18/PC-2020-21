@@ -1,0 +1,59 @@
+Modos para direccionamientos
+
+INTRUCCIONES
+	DIRECTO
+j etiqueta (directo)  jump
+
+	RELATIVO
+b etiqueta (relativo)  branch
+
+
+salto hacia detras, numero negativo
+
+
+DATOS
+	INMEDIATO
+Se utiliza cuando haces referencia a un dato directamente
+el dato se codifica dentro de la instruccion
+
+	DIRECTO A REGISTRO
+Lo usamos en aquellas operaciones en las que
+toda la información que necesitan para operar ya
+está cargada en un registro.
+
+	INDIRECTO (base + desplazamiento)
+sirve para representar direcciones de memoria
+especialmente útil cuando usamos datos
+estructurados (registros, vectores y matrices)
+
+
+desplazamiento + directorio base -> direccion del dato 
+
+
+
+EJEMPLO 
+
+size = 4
+n = 10
+
+.data
+vect:	.word 	2, 1, 4, 3, 6, 5, 8, 7, 10, 9   #vector definido
+vect:	.space(100)  				   #lo que ocupa 100 bytes, 25
+
+.text
+
+main:
+
+	#voy a imprimir vect[4]
+
+	la $t0, vect #direccion base del vect
+	lw $a0, 16($t0) #16 (solo un inmediato) porque son los espacios al pedir el 4 numero 4*4=16
+					# 0  4   8  16  
+					# 2, 1,  4, 3, 6
+					# enteros de 4 en 4 PS
+					# decimales de 8 en 8 PD
+					# caracteres de 1 en 1 
+
+	
+	li $v0,10
+	syscall

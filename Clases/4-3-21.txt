@@ -1,0 +1,91 @@
+Punto flotante.- 
+
+MIPS -> coprocesador en pto flotante que opera en precision simple (32 bits) .s  y doble precision (64 bits) .d
+32 regsitros de 32 bits 
+
+En doble precision solo se utilizaon los pares $f2, $f4, .... $f62
+
+preferentemente, usar los registros pares (CONSEJO)
+
+
+	.data
+x: 	.double 3.4
+y:	double 10.0
+z:	double 0.0
+
+
+	.text
+
+# main:
+# 	li.s $f21, 3.8     se sobrescribio el valor del $f20 , el 20 ocupa el 20 y el 21
+# 	li.d $f20, 14.0 
+
+
+main: 
+	l.d $f20,x
+	l.d $f22,y
+	l.d $f24,z
+	add.d $f24, $f20, $f22
+
+
+Operaciones aritmeticas  // .s  /  .d
+
+Carga y almacenamiento 
+
+Copia y conversión
+
+mtc1, move to coprocesador 1    //  mtc1 $t3,$f27    si $t3 es 9, lo copia al $f27 en forma de 9.0
+mfc1, move front coprocesador 1 // 
+
+cvt  / w / s /d  depende de a lo que queires convertir y luego en el forma que esta originalmente
+cvt.s.w $f28,$f27   //convertir un .s / .w / .d 
+
+
+Comparacoin y saltos
+
+c./eq=/lt</le>./s/d
+
+
+	.data
+rcarro: .asciiz "\n" 
+cadena: .asciiz "Introduce el valor inicial para or decrementando: "
+	
+	.text
+
+
+main: 
+	li.s $f20,10.0     #asigamso los valres a los registros
+	li.s $f21,1.00
+	li.s $f22,0.0
+	la $a0,cadena
+	syscall
+	li $v0,6
+	syscall
+	mov.s $f20,$f0
+
+	bucle:
+		sub.s $f20,$f21,$f22  # sf20--
+		c.eq.s $f20,$f22
+
+		li $v0,2
+		mov.s $f12,$f20     #con estas 3 lineas se imprime en la consola la operacion
+		syscall
+
+		c.eq.s $f20,$f22
+		bc1f bucle            # (a>b)   ==    !(a<=b)
+
+	li $v0,10
+	syscall
+
+
+
+
+
+
+E/S  Llamadas al sistema   'syscall'
+
+print_/int/float/double/string
+
+		1   2      3      4
+
+read/............
